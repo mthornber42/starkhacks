@@ -54,11 +54,16 @@ class CentroidClassifier(GenericClassifier):
     def save(self, path: str):
         os.makedirs(path, exist_ok=True)
 
+        centroids = getattr(self, "centroids_", dict())
+
+        centroids = {k: list(v) for k, v in centroids.items()}
+
         metadata = {
             "threshold_scale": getattr(self, "threshold_scale", None),
-            "centroids_": getattr(self, "centroids_", None),
+            "centroids_": centroids,
             "thresholds_": getattr(self, "thresholds_", None),
         }
+
 
         with open(os.path.join(path, "metadata.json"), "w") as f:
             json.dump(metadata, f)
