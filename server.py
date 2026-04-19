@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from typing import List
 import json
-import mollyend
+from model import predict
 
 app = FastAPI()
 
@@ -23,7 +23,8 @@ class IMUData(BaseModel):
 @app.post("/imu")
 def receive(data: IMUData):
     json_data = data.model_dump()
-    prediction = mollyend.molly_predict(json_data)
+    # prediction = mollyend.molly_predict(json_data)
+    prediction = predict(json_data)
     DATA_STORE.append(prediction)
     return {"status": "ok", "count": len(DATA_STORE)}
 
