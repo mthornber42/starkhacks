@@ -22,9 +22,11 @@ class IMUData(BaseModel):
 
 @app.post("/imu")
 def receive(data: IMUData):
+    print("Received data")
     json_data = data.model_dump()
     # prediction = mollyend.molly_predict(json_data)
     prediction = predict(json_data)
+    print(prediction)
     DATA_STORE.append(prediction)
     return {"status": "ok", "count": len(DATA_STORE)}
 

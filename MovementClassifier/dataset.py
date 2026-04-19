@@ -91,8 +91,9 @@ class Dataset:
                 mag = mag[seg_mask]
 
                 # Smooth the data using Savitzky-Golay filter
-                X = savgol_filter(X, window_length=min(7, X.shape[0]),
-                                  polyorder=2, axis=0)
+                window_len = min(7, X.shape[0])
+                X = savgol_filter(X, window_length=window_len,
+                                  polyorder=min(window_len-1, 2), axis=0)
 
                 # Add magnitude in for resampling  --  X: (?, 7)
                 X = np.hstack((X, mag.reshape(-1, 1)))
