@@ -27,7 +27,7 @@ class CentroidClassifier(GenericClassifier):
             dists = np.linalg.norm(Zc - centroid, axis=1)
 
             self.centroids_[label] = centroid
-            self.thresholds_[label] = dists.max() * self.threshold_scale
+            self.thresholds_[label] = float(dists.max() * self.threshold_scale)
 
     def predict(self, Z):
         preds = []
@@ -56,8 +56,8 @@ class CentroidClassifier(GenericClassifier):
 
         metadata = {
             "threshold_scale": getattr(self, "threshold_scale", None),
-            "centroids_": list(getattr(self, "centroids_", None)),
-            "thresholds_": list(getattr(self, "thresholds_", None)),
+            "centroids_": getattr(self, "centroids_", None),
+            "thresholds_": getattr(self, "thresholds_", None),
         }
 
         with open(os.path.join(path, "metadata.json"), "w") as f:
